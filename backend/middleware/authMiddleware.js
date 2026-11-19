@@ -8,7 +8,7 @@ export const protect = (req, res, next) => {
     }
 
     const token = authHeader.split(" ")[1];
-    const secret = process.env.JWT_SECRET || "dev_secret_change_me";
+    const secret = process.env.JWT_SECRET;
 
     try {
         const decoded = jwt.verify(token, secret);
