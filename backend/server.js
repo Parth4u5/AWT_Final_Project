@@ -1,8 +1,16 @@
 import dotenv from 'dotenv';
+import { assertEnv } from './config/env.js';
 import connectDB from './config/db.js';
 import app from './app.js';
 
 dotenv.config();
+
+try {
+    assertEnv();
+} catch (error) {
+    console.error(error.message);
+    process.exit(1);
+}
 
 const port = process.env.PORT || 5000;
 

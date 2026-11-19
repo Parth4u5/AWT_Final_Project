@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 const generateToken = (user) => {
-    const secret = process.env.JWT_SECRET || "dev_secret_change_me";
+    const secret = process.env.JWT_SECRET;
     return jwt.sign(
         {
             userId: user._id,
@@ -32,7 +32,7 @@ export const register = async (req, res) => {
             return res.status(400).json({ message: "User already exists" });
         }
 
-        const role = email === "admin@gmail.com" ? "admin" : "user";
+        const role = "user";
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser = await User.create({
@@ -65,39 +65,10 @@ export const register = async (req, res) => {
 // LOGIN
 export const login = async (req, res) => {
     try {
-        let { email, password } = req.body;
+        const { email, password } = req.body;
 
         if (!email || !password) {
             return res.status(400).json({ message: "All fields are required" });
-        }
-
-        // Handle admin username login (admin / admin@616)
-        if (email === "admin" && password === "admin@616") {
-            email = "admin@jsflow.local";
-            let adminUser = await User.findOne({ email });
-
-            if (!adminUser) {
-                // Create admin user if not exists
-                const hashedPassword = await bcrypt.hash(password, 10);
-                adminUser = await User.create({
-                    name: "Admin",
-                    email: email,
-                    password: hashedPassword,
-                    role: "admin"
-                });
-            }
-
-            const token = generateToken(adminUser);
-            return res.status(200).json({
-                message: "Login successful",
-                token,
-                user: {
-                    id: adminUser._id,
-                    name: adminUser.name,
-                    email: adminUser.email,
-                    role: adminUser.role
-                }
-            });
         }
 
         const user = await User.findOne({ email });
