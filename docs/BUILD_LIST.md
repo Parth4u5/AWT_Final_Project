@@ -27,6 +27,10 @@
 18. [Risk Register](#18-risk-register) · [19. Definition of Done](#19-definition-of-done)
 20. [Decisions Log](#20-decisions-log) · [21. Open Questions](#21-open-questions)
 
+**Companion guides:**
+- [SYSTEM_FLOW.md](./SYSTEM_FLOW.md) — how the website actually works, shown in small focused diagrams with short descriptions of each feature.
+- [INSTALLATION.md](./INSTALLATION.md) — pinned tool/library versions and fail-fast checkpoints that stop setup when something is missing or misconfigured.
+
 ---
 
 ## 0. Executive Summary
