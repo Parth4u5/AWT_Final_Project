@@ -98,6 +98,8 @@ or install the current 22 LTS binary from nodejs.org.
 
 **Threshold:** `>=10.0.0 <11.0.0`. Do not install pnpm globally with npm — that bypasses Corepack pinning.
 
+**Pinned version (2026-11-19):** Corepack resolves `pnpm@10` to `10.34.9` (the `latest-10` dist-tag). This is the exact patch pinned in the root `package.json` `packageManager` field (`pnpm@10.34.9`).
+
 **Verify:**
 
 ```powershell
