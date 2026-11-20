@@ -5,6 +5,7 @@
 #   TODO(Phase 1): coverage thresholds via @vitest/coverage-v8 in the `test` job (§1.5, §2 gate).
 #   TODO(Phase 3): Lighthouse CI with asserted scores (§4.1 "Quality gates", §1.6).
 #   TODO(Phase 3): size-limit bundle budget (200 KB) in the `build` job (§4.1, §1.5).
+#   TODO(Phase 3): axe a11y gate with asserted results — docs/BUILD_LIST.md §4.1 "Quality gates".
 #   TODO(later):   Turborepo remote cache (TURBO_TOKEN/TURBO_TEAM) once the repo is public (§4.1, D2).
 
 name: CI
@@ -122,6 +123,8 @@ jobs:
 
       # TODO(Phase 1): add `pnpm test:coverage` with @vitest/coverage-v8 thresholds here.
       # See docs/BUILD_LIST.md §1.5 and the Phase 1 gate in §2.
+      # `--passWithNoTests` in the package manifests is temporary: it keeps CI green
+      # until real tests land in Phase 1 task 1.8, then it should be removed.
       - name: Test
         run: pnpm test
 
