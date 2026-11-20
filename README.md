@@ -6,10 +6,11 @@
 A learning tool that aims to show JavaScript code executing step by step — the call stack, scope, and
 control flow rendered as a live graph you can scrub, step, and break on.
 
-> **Status: Phase 0 foundation complete; the engine is landing in Phase 2.** This repository currently
-> contains the safe, reproducible foundation (monorepo, tooling, CI, and documentation). The visualizer
-> engine is **not built yet** — see [What works today](#what-works-today) before you form an opinion
-> about the product.
+> **Status: Phase 0 foundation in progress; the engine is landing in Phase 2.** The monorepo scaffold,
+> pinned toolchain, CI, and documentation are in place, but the Phase 0 gate is pending the human-owned
+> credential rotation (Task 0) and the held tasks (1, 9, 10) — so there is no local Docker/seed flow yet.
+> The visualizer engine is **not built yet** — see [What works today](#what-works-today) before you form
+> an opinion about the product.
 
 ## What works today
 
@@ -18,7 +19,7 @@ Be honest about the current state: this is a foundation, not a finished product.
 | Capability                            | Today                                           | Lands in       |
 | ------------------------------------- | ----------------------------------------------- | -------------- |
 | Monorepo, pinned toolchain, CI        | ✅ Lint, typecheck, test, build on Node 22 & 24 | Phase 0 (done) |
-| Local MongoDB + seed                  | ✅ `docker compose up && pnpm seed`             | Phase 0 (done) |
+| Local MongoDB + seed                  | 🔧 pending Docker/seed (Task 9)                 | Phase 0 (held) |
 | Step-by-step execution                | ❌ Not implemented                              | Phase 2        |
 | Loops and conditions                  | ❌ Not implemented                              | Phase 2        |
 | Function call tracking / call stack   | ❌ Not implemented                              | Phase 2        |
@@ -57,10 +58,14 @@ cd AWT_Final_Project
 # 2. Install from the repository root (never inside a package)
 pnpm install --frozen-lockfile
 
-# 3. Copy .env.example to .env in apps/web and apps/api and fill in real values
-#    (see the environment table below and INSTALLATION.md §9)
+# 3. Copy the CURRENT examples to .env in their current directories and fill in
+#    real values (see the environment table below and INSTALLATION.md §9):
+#      backend/.env.example -> backend/.env   (API)
+#      JsFlow/.env.example  -> JsFlow/.env    (web)
+#    Phase 1 task 1.2 moves both into apps/api and apps/web via git mv.
 
-# 4. Start MongoDB and seed it
+# 4. Start MongoDB and seed it — PENDING Task 9 (held): docker-compose.yml and
+#    scripts/seed.ts do not exist on this branch yet
 docker compose up -d
 pnpm seed
 
