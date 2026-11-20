@@ -1,60 +1,108 @@
 # JS Flow Visualizer
 
-## 📌 Overview
+[![CI](https://github.com/Parth4u5/AWT_Final_Project/actions/workflows/ci.yml/badge.svg)](https://github.com/Parth4u5/AWT_Final_Project/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-JS Flow Visualizer is a web-based tool that helps users understand how JavaScript code executes step-by-step. It visually represents control flow, function calls, and execution order to simplify complex logic.
+A learning tool that aims to show JavaScript code executing step by step — the call stack, scope, and
+control flow rendered as a live graph you can scrub, step, and break on.
 
-## 🚀 Features
+> **Status: Phase 0 foundation complete; the engine is landing in Phase 2.** This repository currently
+> contains the safe, reproducible foundation (monorepo, tooling, CI, and documentation). The visualizer
+> engine is **not built yet** — see [What works today](#what-works-today) before you form an opinion
+> about the product.
 
-* Step-by-step execution visualization
-* Clear representation of control flow (loops, conditions)
-* Function call tracking
-* Interactive UI for better understanding
-* Beginner-friendly learning tool
+## What works today
 
-## 🛠️ Tech Stack
+Be honest about the current state: this is a foundation, not a finished product.
 
-1.javascript
-2.Reactjs
-3.node.js
-4.mongoDB atlas database server
-5.JWT authentication
-6.deployed 
+| Capability                            | Today                                           | Lands in       |
+| ------------------------------------- | ----------------------------------------------- | -------------- |
+| Monorepo, pinned toolchain, CI        | ✅ Lint, typecheck, test, build on Node 22 & 24 | Phase 0 (done) |
+| Local MongoDB + seed                  | ✅ `docker compose up && pnpm seed`             | Phase 0 (done) |
+| Step-by-step execution                | ❌ Not implemented                              | Phase 2        |
+| Loops and conditions                  | ❌ Not implemented                              | Phase 2        |
+| Function call tracking / call stack   | ❌ Not implemented                              | Phase 2        |
+| Scopes, closures, replay, breakpoints | ❌ Not implemented                              | Phase 2        |
+| CodeMirror editor + flow graph        | ❌ Not implemented                              | Phase 3        |
+| Accounts, saved sessions, sharing     | ❌ Not implemented                              | Phases 4–5     |
+| AI tutor                              | ❌ Not implemented                              | Phase 6        |
 
-## 📂 Project Structure
+The pre-existing UI shell advertised loops, conditions, and function-call tracking, but those claims were
+never true — the old "engine" was a regex line-splitter. They are listed above as targets, not features.
 
-* `/src` – Core JavaScript logic
-* `/assets` – Styles and static files
-* `index.html` – Entry point
+## Roadmap
 
-## ⚙️ Installation & Setup
+| Phase | Name                      | Length     | Ships                             |
+| ----- | ------------------------- | ---------- | --------------------------------- |
+| 0     | Setup & Foundation        | ~1 week    | The safe foundation (done)        |
+| 1     | TypeScript Migration      | ~1 week    | The existing app, fully typed     |
+| 2     | The Engine                | ~3 weeks   | The app finally works             |
+| 3     | UI/UX Rebuild             | ~2 weeks   | A polished, accessible visualizer |
+| 4     | Backend v2                | ~1.5 weeks | Secure auth, real data model      |
+| 5     | Product Depth             | ~2 weeks   | Challenges, XP, sessions, admin   |
+| 6     | The AI Tutor              | ~5 days    | AI explanations of any step       |
+| 7     | Portfolio Polish & Launch | ~1.5 weeks | Deploy-ready portfolio piece      |
 
-Clone the repository:
+## Getting started (about five minutes)
 
-```bash
+The full, fail-fast walkthrough lives in **[docs/INSTALLATION.md](./docs/INSTALLATION.md)**. The short
+version:
+
+```powershell
+# 1. Prerequisites: Node 22 LTS (.nvmrc), pnpm via corepack, Docker
+corepack enable
 git clone https://github.com/Parth4u5/AWT_Final_Project.git
 cd AWT_Final_Project
+
+# 2. Install from the repository root (never inside a package)
+pnpm install --frozen-lockfile
+
+# 3. Copy .env.example to .env in apps/web and apps/api and fill in real values
+#    (see the environment table below and INSTALLATION.md §9)
+
+# 4. Start MongoDB and seed it
+docker compose up -d
+pnpm seed
+
+# 5. Run the web app and API together
+pnpm dev
 ```
 
-Run the project:
+If any gate fails, **stop and fix it** — INSTALLATION.md documents every threshold and its remedy.
 
-* Open `index.html` in your browser
+### Environment variables
 
-## 🎯 Use Case
+| Variable            | Required  | Rule                                                         |
+| ------------------- | --------- | ------------------------------------------------------------ |
+| `MONGO_URI`         | Always    | Must use the rotated Atlas user; never the leaked credential |
+| `JWT_SECRET`        | Always    | ≥ 32 random characters; never `dev_secret_change_me`         |
+| `CSRF_SECRET`       | Always    | ≥ 32 random characters; distinct from `JWT_SECRET`           |
+| `ALLOWED_ORIGINS`   | Always    | Explicit comma-separated list; `*` is forbidden              |
+| `REDIS_URL`         | Phases 4+ | Shared store; in-memory rate limits are bypassable           |
+| `ANTHROPIC_API_KEY` | Phase 6+  | Warning if absent — the tutor hides, visualizer still works  |
+| `SENTRY_DSN`        | Deploy    | Warning if absent locally                                    |
+| `PORT`              | API       | Defaults to `5000`                                           |
 
-This tool is useful for:
+The API fails fast at boot on a missing or placeholder secret. Never commit a `.env` file.
 
-* Students learning JavaScript
-* Understanding execution flow of complex code
-* Debugging logic step-by-step
+## Architecture
 
+The target is a pnpm/Turborepo monorepo: `apps/web` (React 19), `apps/api` (Fastify 5), `packages/engine`
+(a pure TypeScript interpreter that runs in a Web Worker and on the server), and `packages/shared` (Zod
+schemas that define the client/server contract once).
 
-## 🔮 Future Improvements
+For the full picture — request flows, the Run pipeline, auth, and deployment — read the
+**[System Flow Guide](./docs/SYSTEM_FLOW.md)**. The build order and rationale are in
+**[docs/BUILD_LIST.md](./docs/BUILD_LIST.md)**.
 
-* Support for more complex JavaScript patterns
-* Code editor integration
-* Live execution with debugging tools
+## Documentation
 
-## 👤 Author
+- [BUILD_LIST.md](./docs/BUILD_LIST.md) — the specification and phase plan
+- [SYSTEM_FLOW.md](./docs/SYSTEM_FLOW.md) — architecture and runtime flows
+- [INSTALLATION.md](./docs/INSTALLATION.md) — fail-fast setup checklist
+- [ADRs](./docs/adr/) — architecture decision records (001–006)
+- [CASE_STUDY.md](./docs/CASE_STUDY.md) — the written project write-up, built alongside the code
 
-Parth Thanki
+## License
+
+[MIT](./LICENSE) © 2026 Parth Thanki.
