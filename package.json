@@ -2,5 +2,14 @@
   "name": "jsflow-visualizer",
   "private": true,
   "packageManager": "pnpm@10.34.9",
-  "engines": { "node": ">=22 <25" }
+  "engines": { "node": ">=22 <25" },
+  "scripts": {
+    "dev": "concurrently \"pnpm --filter @jsflow/web dev\" \"pnpm --filter @jsflow/api dev\"",
+    "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "seed": "tsx scripts/seed.ts",
+    "changeset": "changeset"
+  }
 }
