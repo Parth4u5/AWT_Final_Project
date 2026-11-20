@@ -128,6 +128,23 @@ jobs:
       - name: Test
         run: pnpm test
 
+      # Safety-critical env validator coverage. Synthetic values only — never
+      # use real secrets here.
+      - name: Env validator smoke test
+        run: |
+          export JWT_SECRET="$(openssl rand -hex 20)"  # 40 random chars
+          export MONGO_URI="mongodb://127.0.0.1:27017/jsflow_test"
+          export ALLOWED_ORIGINS="http://localhost:5173"
+          node scripts/check-env.mjs
+          # Negative case: a wildcard origin must be rejected (exit 1).
+          if ALLOWED_ORIGINS='*' node scripts/check-env.mjs; then
+            echo "expected ALLOWED_ORIGINS='*' to be rejected" >&2
+            exit 1
+          fi
+          # Regression (spec §5.7.1 / D13): rotated-in-place URI accepted,
+          # revoked DB user still rejected.
+          node scripts/check-env.regression.mjs
+
   build:
     name: Build (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
