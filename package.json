@@ -11,6 +11,7 @@
     "typecheck": "turbo run typecheck",
     "lint": "turbo run lint",
     "test": "turbo run test",
+    "test:seed": "vitest run scripts/seed.test.ts",
     "seed": "tsx scripts/seed.ts",
     "changeset": "changeset",
     "prepare": "husky"
@@ -35,6 +36,7 @@
     "eslint-plugin-simple-import-sort": "catalog:",
     "husky": "catalog:",
     "lint-staged": "catalog:",
+    "mongoose": "catalog:",
     "prettier": "catalog:",
     "prettier-plugin-tailwindcss": "catalog:",
     "tsx": "catalog:",
