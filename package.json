@@ -12,6 +12,7 @@
     "lint": "turbo run lint",
     "test": "turbo run test",
     "test:seed": "vitest run scripts/seed.test.ts",
+    "check:docs": "node scripts/check-docs.mjs",
     "seed": "tsx scripts/seed.ts",
     "changeset": "changeset",
     "prepare": "husky"
