@@ -128,6 +128,10 @@ jobs:
       - name: Test
         run: pnpm test
 
+      # Seed idempotency (Review Focus #5): pure unit test, needs no Mongo.
+      - name: Seed idempotency test
+        run: pnpm test:seed
+
       # Safety-critical env validator coverage. Synthetic values only — never
       # use real secrets here.
       - name: Env validator smoke test

@@ -1,0 +1,4 @@
+services:
+  mongo:
+    environment:
+      MONGO_INITDB_DATABASE: jsflow

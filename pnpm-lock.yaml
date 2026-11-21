@@ -251,6 +251,9 @@ importers:
       lint-staged:
         specifier: 'catalog:'
         version: 16.4.0
+      mongoose:
+        specifier: 'catalog:'
+        version: 9.12.2
       prettier:
         specifier: 'catalog:'
         version: 3.10.1
