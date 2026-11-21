@@ -132,6 +132,10 @@ jobs:
       - name: Seed idempotency test
         run: pnpm test:seed
 
+      # Env examples + runbook contract stay complete as phases add variables.
+      - name: Documentation contract
+        run: pnpm check:docs
+
       # Safety-critical env validator coverage. Synthetic values only — never
       # use real secrets here.
       - name: Env validator smoke test
