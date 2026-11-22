@@ -3,6 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "devDependencies": {
+    "expect-type": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
