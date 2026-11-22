@@ -123,8 +123,9 @@ jobs:
 
       # TODO(Phase 1): add `pnpm test:coverage` with @vitest/coverage-v8 thresholds here.
       # See docs/BUILD_LIST.md §1.5 and the Phase 1 gate in §2.
-      # `--passWithNoTests` in the package manifests is temporary: it keeps CI green
-      # until real tests land in Phase 1 task 1.8, then it should be removed.
+      # Phase 1 task 1.8 landed real tests; `--passWithNoTests` was removed from
+      # all four package manifests so an empty test suite fails CI again.
+      # TODO(Phase 2): raise coverage thresholds via @vitest/coverage-v8.
       - name: Test
         run: pnpm test
 
