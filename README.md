@@ -59,11 +59,10 @@ cd AWT_Final_Project
 # 2. Install from the repository root (never inside a package)
 pnpm install --frozen-lockfile
 
-# 3. Copy the CURRENT examples to .env in their current directories and fill in
-#    real values (see the environment table below and INSTALLATION.md §9):
-#      backend/.env.example -> backend/.env   (API)
-#      JsFlow/.env.example  -> JsFlow/.env    (web)
-#    Phase 1 task 1.2 moves both into apps/api and apps/web via git mv.
+# 3. Copy the examples to .env in each app and fill in real values
+#    (see the environment table below and INSTALLATION.md §9):
+#      apps/api/.env.example -> apps/api/.env   (API)
+#      apps/web/.env.example -> apps/web/.env   (web)
 
 # 4. Start MongoDB and seed it. The seed is idempotent — a second run inserts
 #    nothing (verified by `pnpm test:seed`). Export SEED_ADMIN_EMAIL and

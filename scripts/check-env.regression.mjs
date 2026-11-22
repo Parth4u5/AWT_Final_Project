@@ -11,10 +11,10 @@
  */
 import assert from 'node:assert/strict';
 import { randomBytes } from 'node:crypto';
-import { assertEnv } from '../backend/config/env.js';
+import { assertEnv } from '../apps/api/config/env.js';
 
 // Assembled from parts so the leaked host literal is not re-committed to source
-// (the same reason it was removed from backend/config/env.js). A repository-wide
+// (the same reason it was removed from apps/api/config/env.js). A repository-wide
 // search for the full hostname must still return zero matches in source.
 const ROTATED_CLUSTER_HOST = 'cluster0.79wzy7b' + '.mongodb.net';
 
