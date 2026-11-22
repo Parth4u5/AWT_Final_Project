@@ -1,6 +1,7 @@
 {
   "extends": "../../tooling/tsconfig/node.json",
   "compilerOptions": {
+    "exactOptionalPropertyTypes": true,
     "paths": {
       "@jsflow/shared": ["../../packages/shared/src/index.ts"]
     }
