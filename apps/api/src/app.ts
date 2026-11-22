@@ -1,9 +1,9 @@
 import cors from "cors";
 import express from "express";
 
-import authRoutes from "./routes/authRoutes.js";
-import exampleRoutes from "./routes/exampleRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
+import authRoutes from "./routes/authRoutes";
+import exampleRoutes from "./routes/exampleRoutes";
+import userRoutes from "./routes/userRoutes";
 
 const frontendUrl = process.env.FRONTEND_URL;
 
@@ -15,7 +15,7 @@ const staticAllowedOrigins = [
   ...(frontendUrl ? [frontendUrl] : []),
 ];
 
-const isAllowedOrigin = (origin) => {
+const isAllowedOrigin = (origin: string): boolean => {
   if (staticAllowedOrigins.includes(origin)) {
     return true;
   }
@@ -34,14 +34,16 @@ app.use(
     origin: (origin, callback) => {
       // Allow non-browser clients and server-to-server requests.
       if (!origin) {
-        return callback(null, true);
+        callback(null, true);
+        return;
       }
 
       if (isAllowedOrigin(origin)) {
-        return callback(null, true);
+        callback(null, true);
+        return;
       }
 
-      return callback(new Error("Not allowed by CORS"));
+      callback(new Error("Not allowed by CORS"));
     },
   }),
 );

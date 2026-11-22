@@ -9,19 +9,16 @@
  * Later phases add CSRF_SECRET, REDIS_URL and ANTHROPIC_API_KEY checks here.
  */
 
-/**
- * @typedef {object} Env
- * @property {string} JWT_SECRET  Validated signing secret.
- * @property {string} MONGO_URI   Validated connection string.
- * @property {string[]} ALLOWED_ORIGINS  Validated explicit origin list.
- */
+export interface Env {
+  JWT_SECRET: string;
+  MONGO_URI: string;
+  ALLOWED_ORIGINS: string[];
+}
 
-// The revoked DB user from the leaked backend/.env (not the password). Task 0
-// deletes this user at the database level; any URI still naming it is the old,
+// The revoked DB user from the leaked .env (not the password). Task 0 deletes
+// this user at the database level; any URI still naming it is the old,
 // compromised config. The cluster HOST is intentionally NOT matched: Atlas
-// credentials are rotated IN PLACE on the same cluster (spec §5.7.1 / decision
-// D13), so a correctly rotated URI keeps that hostname. Matching the host would
-// reject the rotated URI and brick the API on first boot after Task 0.
+// credentials are rotated IN PLACE on the same cluster (spec §5.7.1 / D13).
 const REVOKED_MONGO_URI_MARKERS = ["parththanki821_db_user"];
 
 // Assembled from parts so the legacy fallback literal itself never appears in
@@ -33,7 +30,7 @@ const FORBIDDEN_JWT_SECRETS = new Set([
 
 const MIN_JWT_SECRET_LENGTH = 32;
 
-const readRequired = (env, name) => {
+const readRequired = (env: NodeJS.ProcessEnv, name: string): string => {
   const value = env[name];
   if (typeof value !== "string" || value.trim() === "") {
     throw new Error(`${name} is required`);
@@ -44,11 +41,9 @@ const readRequired = (env, name) => {
 /**
  * Validate the environment and return a plain object of validated values.
  *
- * @param {NodeJS.ProcessEnv} env
- * @returns {Env}
  * @throws {Error} with an exact, secret-free message on bad configuration.
  */
-export function assertEnv(env = process.env) {
+export function assertEnv(env: NodeJS.ProcessEnv = process.env): Env {
   // --- JWT_SECRET --------------------------------------------------------
   const jwtSecret = readRequired(env, "JWT_SECRET");
   if (FORBIDDEN_JWT_SECRETS.has(jwtSecret)) {

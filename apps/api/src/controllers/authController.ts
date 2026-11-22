@@ -1,10 +1,14 @@
+import type { LoginInput, RegisterInput } from "@jsflow/shared";
 import bcrypt from "bcryptjs";
+import type { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
+import type { HydratedDocument } from "mongoose";
 
-import User from "../models/User.js";
+import User from "../models/User";
+import type { IUser } from "../types/models";
 
-const generateToken = (user) => {
-  const secret = process.env.JWT_SECRET;
+const generateToken = (user: HydratedDocument<IUser>): string => {
+  const secret = process.env.JWT_SECRET as string;
   return jwt.sign(
     {
       userId: user._id,
@@ -16,23 +20,30 @@ const generateToken = (user) => {
 };
 
 // REGISTER
-export const register = async (req, res) => {
+export const register: RequestHandler<
+  Record<string, never>,
+  unknown,
+  RegisterInput
+> = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
-      return res.status(400).json({ message: "All fields are required" });
+      res.status(400).json({ message: "All fields are required" });
+      return;
     }
 
     if (password.length < 6) {
-      return res
+      res
         .status(400)
         .json({ message: "Password must be at least 6 characters" });
+      return;
     }
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
+      res.status(400).json({ message: "User already exists" });
+      return;
     }
 
     const role = "user";
@@ -64,23 +75,30 @@ export const register = async (req, res) => {
 };
 
 // LOGIN
-export const login = async (req, res) => {
+export const login: RequestHandler<
+  Record<string, never>,
+  unknown,
+  LoginInput
+> = async (req, res) => {
   try {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ message: "All fields are required" });
+      res.status(400).json({ message: "All fields are required" });
+      return;
     }
 
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(400).json({ message: "User not found" });
+      res.status(400).json({ message: "User not found" });
+      return;
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      res.status(400).json({ message: "Invalid credentials" });
+      return;
     }
 
     const token = generateToken(user);
@@ -101,11 +119,12 @@ export const login = async (req, res) => {
   }
 };
 
-export const getMe = async (req, res) => {
+export const getMe: RequestHandler = async (req, res) => {
   try {
-    const user = await User.findById(req.user.userId).select("-password");
+    const user = await User.findById(req.user?.userId).select("-password");
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      res.status(404).json({ message: "User not found" });
+      return;
     }
 
     res.status(200).json({ user });

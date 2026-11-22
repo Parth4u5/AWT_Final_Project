@@ -1,4 +1,9 @@
 {
   "extends": "../../tooling/tsconfig/node.json",
+  "compilerOptions": {
+    "paths": {
+      "@jsflow/shared": ["../../packages/shared/src/index.ts"]
+    }
+  },
   "include": ["src"]
 }

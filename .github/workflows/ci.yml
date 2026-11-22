@@ -143,15 +143,15 @@ jobs:
           export JWT_SECRET="$(openssl rand -hex 20)"  # 40 random chars
           export MONGO_URI="mongodb://127.0.0.1:27017/jsflow_test"
           export ALLOWED_ORIGINS="http://localhost:5173"
-          node scripts/check-env.mjs
+          pnpm exec tsx scripts/check-env.ts
           # Negative case: a wildcard origin must be rejected (exit 1).
-          if ALLOWED_ORIGINS='*' node scripts/check-env.mjs; then
+          if ALLOWED_ORIGINS='*' pnpm exec tsx scripts/check-env.ts; then
             echo "expected ALLOWED_ORIGINS='*' to be rejected" >&2
             exit 1
           fi
           # Regression (spec §5.7.1 / D13): rotated-in-place URI accepted,
           # revoked DB user still rejected.
-          node scripts/check-env.regression.mjs
+          pnpm exec tsx scripts/check-env.regression.ts
 
   build:
     name: Build (Node ${{ matrix.node-version }})
