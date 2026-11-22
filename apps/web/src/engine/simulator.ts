@@ -1,6 +1,11 @@
-import { parseCodeToInstructions } from "./parser.jsx";
+import type { SimulateResult, Step } from "@jsflow/engine";
 
-const safeEvaluate = (expression, variables) => {
+import { parseCodeToInstructions } from "./parser";
+
+const safeEvaluate = (
+  expression: string,
+  variables: Record<string, unknown>,
+): unknown => {
   try {
     const evaluator = new Function(
       ...Object.keys(variables),
@@ -12,11 +17,11 @@ const safeEvaluate = (expression, variables) => {
   }
 };
 
-export const simulateCodeFlow = (sourceCode) => {
+export const simulateCodeFlow = (sourceCode: string): SimulateResult => {
   const instructions = parseCodeToInstructions(sourceCode);
-  const variables = {};
-  const steps = [];
-  const logs = [];
+  const variables: Record<string, unknown> = {};
+  const steps: Step[] = [];
+  const logs: string[] = [];
 
   instructions.forEach((instruction) => {
     if (instruction.type === "assign") {

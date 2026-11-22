@@ -1,7 +1,17 @@
-import { Navigate } from "react-router-dom";
+import type { ReactNode } from "react";
+import { Navigate } from "react-router";
+
 import { getCurrentUser, isAuthenticated } from "../utils/auth";
 
-const ProtectedRoute = ({ children, adminOnly = false }) => {
+interface ProtectedRouteProps {
+  children: ReactNode;
+  adminOnly?: boolean;
+}
+
+const ProtectedRoute = ({
+  children,
+  adminOnly = false,
+}: ProtectedRouteProps) => {
   const user = getCurrentUser();
   const authenticated = isAuthenticated();
 

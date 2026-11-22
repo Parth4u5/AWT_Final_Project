@@ -1,6 +1,8 @@
-import React from "react";
+interface ExecutionLogProps {
+  logs: string[];
+}
 
-const ExecutionLog = ({ logs }) => {
+const ExecutionLog = ({ logs }: ExecutionLogProps) => {
   return (
     <div className="flex h-full flex-col bg-gray-100 p-4 transition dark:bg-gray-900">
       {/* Header */}
