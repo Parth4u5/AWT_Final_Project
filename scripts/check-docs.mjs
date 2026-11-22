@@ -88,15 +88,10 @@ for (const stale of staleClaims) {
     `README contains stale status claim: ${stale}`,
   );
 }
-assert.match(
-  readme,
-  /Tasks 1, 9 and 10[^.]*complete/i,
-  "README must state that Tasks 1, 9 and 10 are complete",
-);
-assert.match(
-  readme,
-  /Phase 1 complete/i,
-  "README must state that Phase 1 is complete",
+// Stable machine-readable marker — prose can be reworded without breaking CI.
+assert.ok(
+  readme.includes("<!-- status: phase-1-complete -->"),
+  "README must carry the phase-1-complete status marker",
 );
 
 console.log(

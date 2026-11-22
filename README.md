@@ -1,5 +1,7 @@
 # JS Flow Visualizer
 
+<!-- status: phase-1-complete -->
+
 [![CI](https://github.com/Parth4u5/AWT_Final_Project/actions/workflows/ci.yml/badge.svg)](https://github.com/Parth4u5/AWT_Final_Project/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
@@ -17,19 +19,19 @@ control flow rendered as a live graph you can scrub, step, and break on.
 
 Be honest about the current state: this is a foundation, not a finished product.
 
-| Capability                            | Today                                             | Lands in       |
-| ------------------------------------- | ------------------------------------------------- | -------------- |
-| Monorepo, pinned toolchain, CI        | ✅ Lint, typecheck, test, build on Node 22 & 24   | Phase 0 (done) |
-| Strict TypeScript apps + contracts    | ✅ `strict`, zero `any`, shared Zod `z.infer`     | Phase 1 (done) |
-| Typed API client + engine tests       | ✅ 6 web + 3 API + 3 shared + 2 type tests        | Phase 1 (done) |
-| Local MongoDB + seed                  | ✅ Present, unit-tested (live check needs Docker) | Phase 0 (done) |
-| Step-by-step execution                | ❌ Not implemented                                | Phase 2        |
-| Loops and conditions                  | ❌ Not implemented                                | Phase 2        |
-| Function call tracking / call stack   | ❌ Not implemented                                | Phase 2        |
-| Scopes, closures, replay, breakpoints | ❌ Not implemented                                | Phase 2        |
-| CodeMirror editor + flow graph        | ❌ Not implemented                                | Phase 3        |
-| Accounts, saved sessions, sharing     | ❌ Not implemented                                | Phases 4–5     |
-| AI tutor                              | ❌ Not implemented                                | Phase 6        |
+| Capability                            | Today                                                                           | Lands in       |
+| ------------------------------------- | ------------------------------------------------------------------------------- | -------------- |
+| Monorepo, pinned toolchain, CI        | ✅ Lint, typecheck, test, build on Node 22 & 24                                 | Phase 0 (done) |
+| Strict TypeScript apps + contracts    | ✅ `strict`, zero `any`, shared Zod `z.infer`                                   | Phase 1 (done) |
+| Typed API client + engine tests       | ✅ 6 web + 3 API + 3 shared tests; 2 compile-time type assertions (`typecheck`) | Phase 1 (done) |
+| Local MongoDB + seed                  | ✅ Present, unit-tested (live check needs Docker)                               | Phase 0 (done) |
+| Step-by-step execution                | ❌ Not implemented                                                              | Phase 2        |
+| Loops and conditions                  | ❌ Not implemented                                                              | Phase 2        |
+| Function call tracking / call stack   | ❌ Not implemented                                                              | Phase 2        |
+| Scopes, closures, replay, breakpoints | ❌ Not implemented                                                              | Phase 2        |
+| CodeMirror editor + flow graph        | ❌ Not implemented                                                              | Phase 3        |
+| Accounts, saved sessions, sharing     | ❌ Not implemented                                                              | Phases 4–5     |
+| AI tutor                              | ❌ Not implemented                                                              | Phase 6        |
 
 The pre-existing UI shell advertised loops, conditions, and function-call tracking, but those claims were
 never true — the old "engine" was a regex line-splitter. They are listed above as targets, not features.

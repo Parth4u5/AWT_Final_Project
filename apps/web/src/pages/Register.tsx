@@ -116,12 +116,13 @@ const Register = ({ darkMode }: RegisterProps) => {
           {/* Login redirect */}
           <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
             Already have an account?{" "}
-            <span
+            <button
+              type="button"
               onClick={() => navigate("/login")}
               className="cursor-pointer font-semibold text-cyan-600 hover:underline dark:text-cyan-400"
             >
               Login
-            </span>
+            </button>
           </p>
         </form>
       </div>
