@@ -6,43 +6,44 @@
 A learning tool that aims to show JavaScript code executing step by step — the call stack, scope, and
 control flow rendered as a live graph you can scrub, step, and break on.
 
-> **Status: Phase 0 foundation in progress; the engine is landing in Phase 2.** The monorepo scaffold,
-> pinned toolchain, CI, and documentation are in place, but the Phase 0 gate is pending the human-owned
-> credential rotation (Task 0) and the held tasks (1, 9, 10) — so there is no local Docker/seed flow yet.
-> The visualizer engine is **not built yet** — see [What works today](#what-works-today) before you form
-> an opinion about the product.
+> **Status: Phase 0 agent work is complete; the engine lands in Phase 2.** Tasks 1, 9 and 10 are complete:
+> the monorepo scaffold, pinned toolchain, CI, documentation, ignore rules, Docker Compose and idempotent
+> seed are all committed. The Phase 0 gate stays red on the human-owned credential rotation (Task 0 —
+> git history still contains the leaked URI) and on live Mongo checks that require Docker; see
+> [docs/RUNBOOK.md](./docs/RUNBOOK.md). The visualizer engine is **not built yet** — see
+> [What works today](#what-works-today) before you form an opinion about the product.
 
 ## What works today
 
 Be honest about the current state: this is a foundation, not a finished product.
 
-| Capability                            | Today                                           | Lands in       |
-| ------------------------------------- | ----------------------------------------------- | -------------- |
-| Monorepo, pinned toolchain, CI        | ✅ Lint, typecheck, test, build on Node 22 & 24 | Phase 0 (done) |
-| Local MongoDB + seed                  | 🔧 pending Docker/seed (Task 9)                 | Phase 0 (held) |
-| Step-by-step execution                | ❌ Not implemented                              | Phase 2        |
-| Loops and conditions                  | ❌ Not implemented                              | Phase 2        |
-| Function call tracking / call stack   | ❌ Not implemented                              | Phase 2        |
-| Scopes, closures, replay, breakpoints | ❌ Not implemented                              | Phase 2        |
-| CodeMirror editor + flow graph        | ❌ Not implemented                              | Phase 3        |
-| Accounts, saved sessions, sharing     | ❌ Not implemented                              | Phases 4–5     |
-| AI tutor                              | ❌ Not implemented                              | Phase 6        |
+| Capability                            | Today                                             | Lands in       |
+| ------------------------------------- | ------------------------------------------------- | -------------- |
+| Monorepo, pinned toolchain, CI        | ✅ Lint, typecheck, test, build on Node 22 & 24   | Phase 0 (done) |
+| Local MongoDB + seed                  | ✅ Present, unit-tested (live check needs Docker) | Phase 0 (done) |
+| Step-by-step execution                | ❌ Not implemented                                | Phase 2        |
+| Loops and conditions                  | ❌ Not implemented                                | Phase 2        |
+| Function call tracking / call stack   | ❌ Not implemented                                | Phase 2        |
+| Scopes, closures, replay, breakpoints | ❌ Not implemented                                | Phase 2        |
+| CodeMirror editor + flow graph        | ❌ Not implemented                                | Phase 3        |
+| Accounts, saved sessions, sharing     | ❌ Not implemented                                | Phases 4–5     |
+| AI tutor                              | ❌ Not implemented                                | Phase 6        |
 
 The pre-existing UI shell advertised loops, conditions, and function-call tracking, but those claims were
 never true — the old "engine" was a regex line-splitter. They are listed above as targets, not features.
 
 ## Roadmap
 
-| Phase | Name                      | Length     | Ships                             |
-| ----- | ------------------------- | ---------- | --------------------------------- |
-| 0     | Setup & Foundation        | ~1 week    | The safe foundation (done)        |
-| 1     | TypeScript Migration      | ~1 week    | The existing app, fully typed     |
-| 2     | The Engine                | ~3 weeks   | The app finally works             |
-| 3     | UI/UX Rebuild             | ~2 weeks   | A polished, accessible visualizer |
-| 4     | Backend v2                | ~1.5 weeks | Secure auth, real data model      |
-| 5     | Product Depth             | ~2 weeks   | Challenges, XP, sessions, admin   |
-| 6     | The AI Tutor              | ~5 days    | AI explanations of any step       |
-| 7     | Portfolio Polish & Launch | ~1.5 weeks | Deploy-ready portfolio piece      |
+| Phase | Name                      | Length     | Ships                                  |
+| ----- | ------------------------- | ---------- | -------------------------------------- |
+| 0     | Setup & Foundation        | ~1 week    | Agent tasks done; human Task 0 pending |
+| 1     | TypeScript Migration      | ~1 week    | The existing app, fully typed          |
+| 2     | The Engine                | ~3 weeks   | The app finally works                  |
+| 3     | UI/UX Rebuild             | ~2 weeks   | A polished, accessible visualizer      |
+| 4     | Backend v2                | ~1.5 weeks | Secure auth, real data model           |
+| 5     | Product Depth             | ~2 weeks   | Challenges, XP, sessions, admin        |
+| 6     | The AI Tutor              | ~5 days    | AI explanations of any step            |
+| 7     | Portfolio Polish & Launch | ~1.5 weeks | Deploy-ready portfolio piece           |
 
 ## Getting started (about five minutes)
 
@@ -64,8 +65,9 @@ pnpm install --frozen-lockfile
 #      JsFlow/.env.example  -> JsFlow/.env    (web)
 #    Phase 1 task 1.2 moves both into apps/api and apps/web via git mv.
 
-# 4. Start MongoDB and seed it — PENDING Task 9 (held): docker-compose.yml and
-#    scripts/seed.ts do not exist on this branch yet
+# 4. Start MongoDB and seed it. The seed is idempotent — a second run inserts
+#    nothing (verified by `pnpm test:seed`). Export SEED_ADMIN_EMAIL and
+#    SEED_ADMIN_PASSWORD first; see docs/RUNBOOK.md.
 docker compose up -d
 pnpm seed
 

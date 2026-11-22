@@ -5,7 +5,8 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
-const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
+const read = (path) =>
+  readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
 
 const apiEnv = read("backend/.env.example");
 const webEnv = read("JsFlow/.env.example");
@@ -26,11 +27,23 @@ const apiVars = [
 ];
 
 for (const name of apiVars) {
-  assert.match(apiEnv, new RegExp(`^${name}=`, "m"), `${name} missing from backend/.env.example`);
-  const line = apiEnv.split("\n").find((entry) => entry.startsWith(`${name}=`)) ?? "";
-  assert.ok(apiEnv.indexOf(line) > 0, `${name} needs a description in backend/.env.example`);
+  assert.match(
+    apiEnv,
+    new RegExp(`^${name}=`, "m"),
+    `${name} missing from backend/.env.example`,
+  );
+  const line =
+    apiEnv.split("\n").find((entry) => entry.startsWith(`${name}=`)) ?? "";
+  assert.ok(
+    apiEnv.indexOf(line) > 0,
+    `${name} needs a description in backend/.env.example`,
+  );
 }
-assert.match(webEnv, /^VITE_API_BASE_URL=/m, "VITE_API_BASE_URL missing from JsFlow/.env.example");
+assert.match(
+  webEnv,
+  /^VITE_API_BASE_URL=/m,
+  "VITE_API_BASE_URL missing from JsFlow/.env.example",
+);
 
 for (const section of [
   "Service inventory",
@@ -60,4 +73,27 @@ assert.ok(
   "backend/.env.example must not contain a real-looking connection string",
 );
 
-console.log("PASS: env examples and runbook satisfy the documentation contract.");
+// Status claims must reflect the tasks that are actually committed (review finding).
+const readme = read("README.md");
+const staleClaims = [
+  "the held tasks (1, 9, 10)",
+  "there is no local Docker/seed flow yet",
+  "pending Docker/seed (Task 9)",
+  "do not exist on this branch yet",
+  "Phase 0 (held)",
+];
+for (const stale of staleClaims) {
+  assert.ok(
+    !readme.includes(stale),
+    `README contains stale status claim: ${stale}`,
+  );
+}
+assert.match(
+  readme,
+  /Tasks 1, 9 and 10 are complete/i,
+  "README must state that Tasks 1, 9 and 10 are complete",
+);
+
+console.log(
+  "PASS: env examples, runbook and README satisfy the documentation contract.",
+);

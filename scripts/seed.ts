@@ -8,18 +8,11 @@
 import mongoose from "mongoose";
 
 import { applySeed, type SeedCollection, seedDocuments } from "./seed-core";
-
-interface MongoCollectionLike {
-  createIndex(
-    keys: Record<string, 1 | -1>,
-    options: { unique: boolean },
-  ): Promise<unknown>;
-  updateOne(
-    filter: Record<string, unknown>,
-    update: { $setOnInsert: Record<string, unknown> },
-    options: { upsert: boolean },
-  ): Promise<{ upsertedCount?: number }>;
-}
+import {
+  createMongoUpsert,
+  ensureUniqueIndexes,
+  type MongoCollectionLike,
+} from "./seed-upsert";
 
 function required(name: string): string {
   const value = process.env[name];
@@ -28,12 +21,6 @@ function required(name: string): string {
   }
   return value;
 }
-
-const UNIQUE_KEYS: Record<SeedCollection, Record<string, 1 | -1>> = {
-  users: { email: 1 },
-  examples: { title: 1 },
-  challenges: { slug: 1 },
-};
 
 async function main(): Promise<void> {
   const uri = required("MONGO_URI");
@@ -54,26 +41,11 @@ async function main(): Promise<void> {
     }
 
     // Unique indexes are themselves idempotent and make natural keys authoritative.
-    for (const [name, keys] of Object.entries(UNIQUE_KEYS) as [
-      SeedCollection,
-      Record<string, 1 | -1>,
-    ][]) {
-      const collection = collections.get(name);
-      if (collection) await collection.createIndex(keys, { unique: true });
-    }
+    await ensureUniqueIndexes(collections);
 
     const stats = await applySeed(
       seedDocuments(config),
-      async (name, filter, document) => {
-        const collection = collections.get(name);
-        if (!collection) throw new Error(`Unknown seed collection: ${name}`);
-        const result = await collection.updateOne(
-          filter,
-          { $setOnInsert: document },
-          { upsert: true },
-        );
-        return (result.upsertedCount ?? 0) > 0;
-      },
+      createMongoUpsert(collections),
     );
 
     console.log(
