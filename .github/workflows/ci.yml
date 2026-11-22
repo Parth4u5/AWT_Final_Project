@@ -137,6 +137,10 @@ jobs:
       - name: Documentation contract
         run: pnpm check:docs
 
+      # Workspace imports must match app manifests (final-review finding).
+      - name: Workspace manifest contract
+        run: pnpm check:workspace
+
       # Safety-critical env validator coverage. Synthetic values only — never
       # use real secrets here.
       - name: Env validator smoke test
