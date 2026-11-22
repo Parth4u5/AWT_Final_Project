@@ -23,6 +23,14 @@ has a working checkout.
 | Plausible / PostHog | Funnel analytics (Phase 7)           | `<ANALYTICS_URL>`         | client-side site id       |
 | Uptime monitor      | Pings `/api/health/ready`            | `<UPTIME_URL>`            | monitor URL only          |
 
+**Vercel monorepo settings (Phase 1 task 1.10 — dashboard, human-owned):** the Vercel
+Root Directory setting is per project, not a file. Set Root Directory to `apps/web` for
+the web project and `apps/api` for the API project. The API project builds
+`src/api/index.ts` with `@vercel/node` (see `apps/api/vercel.json`); the web project
+builds the Vite app (`npm run build`) and rewrites SPA routes to `/index.html`
+(`apps/web/vercel.json`). Copy every env var from `.env.example` into Production,
+Preview and Development separately; never share production credentials with previews.
+
 The uptime monitor target is `https://<api-domain>/api/health/ready`. Liveness is
 `GET /api/health`; readiness is `GET /api/health/ready` (pings MongoDB). A red readiness
 check means the app may still render from cache but cannot save or authenticate — treat
