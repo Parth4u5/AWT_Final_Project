@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
-let cachedConnection = null;
+let cachedConnection: Promise<typeof mongoose> | null = null;
 
-const connectDB = async () => {
+const connectDB = async (): Promise<typeof mongoose> => {
   if (cachedConnection) {
     return cachedConnection;
   }
@@ -11,7 +11,7 @@ const connectDB = async () => {
 
   if (!mongoUri) {
     throw new Error(
-      "MONGO_URI is missing. Add it to backend/.env or Vercel environment variables.",
+      "MONGO_URI is missing. Add it to apps/api/.env or Vercel environment variables.",
     );
   }
 

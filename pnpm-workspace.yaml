@@ -83,6 +83,14 @@ catalog:
   'arctic': ^3
 
   # ---- apps/api (BUILD_LIST §1.2, INSTALLATION §8.3) ----
+  # Express is retained for the Phase 1 no-op TS migration; Phase 4 replaces it.
+  'express': ^5
+  'cors': ^2
+  'jsonwebtoken': ^9
+  '@types/node': ^22
+  '@types/express': ^5
+  '@types/cors': ^2
+  '@types/jsonwebtoken': ^9
   'fastify': ^5
   'fastify-type-provider-zod': ^5
   '@fastify/cors': ^11

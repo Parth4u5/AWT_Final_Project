@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 
-const exampleSchema = new mongoose.Schema(
+import type { IExample } from "../types/models";
+
+const exampleSchema = new mongoose.Schema<IExample>(
   {
     title: {
       type: String,
@@ -22,6 +24,6 @@ const exampleSchema = new mongoose.Schema(
   },
 );
 
-const Example = mongoose.model("Example", exampleSchema);
+const Example = mongoose.model<IExample>("Example", exampleSchema);
 
 export default Example;

@@ -47,7 +47,7 @@ it as an incident.
 7. **Uptime** — add a 60-second HTTP monitor on `/api/health/ready` with an alert
    channel the owner actually reads.
 
-After provisioning every service, run **G7** (`node scripts/check-env.mjs` with the
+After provisioning every service, run **G7** (`pnpm exec tsx scripts/check-env.ts` with the
 variables exported) and **G12** (deploy health) from `docs/INSTALLATION.md` before
 starting feature work. Both must pass locally and on a Vercel preview deploy.
 
@@ -67,7 +67,7 @@ starting feature work. Both must pass locally and on a Vercel preview deploy.
 Rules: rotate in the same order everywhere (local `.env` → Vercel preview → Vercel
 production), verify the app boots after each step, and never commit a filled env file.
 The cluster **host** does not change on rotation — the revoked credential is the DB
-user, so `backend/config/env.js` deliberately matches the user marker, not the host.
+user, so `apps/api/src/config/env.ts` deliberately matches the user marker, not the host.
 
 ## Task 0 — credential incident response (human-owned)
 
@@ -109,8 +109,8 @@ run inserts nothing. Verify with `pnpm test:seed`.
 
 ## Health checks and gates
 
-- Local: `node scripts/check-env.mjs` (**G7** — hard stop on missing/placeholder env),
-  `node scripts/check-env.regression.mjs`, `node scripts/check-docs.mjs`.
+- Local: `pnpm exec tsx scripts/check-env.ts` (**G7** — hard stop on missing/placeholder env),
+  `pnpm exec tsx scripts/check-env.regression.ts`, `node scripts/check-docs.mjs`.
 - Boot: `GET /api/health` (liveness), `GET /api/health/ready` (MongoDB ping).
 - CI: `pnpm lint && pnpm typecheck && pnpm test && pnpm test:seed && pnpm build`
   on Node 22 and 24; branch protection requires all of them plus one review.

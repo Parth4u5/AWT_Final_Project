@@ -1,6 +1,11 @@
-import Example from "../models/Example.js";
+import type { RequestHandler } from "express";
+import type { Types } from "mongoose";
 
-export const getExamples = async (_req, res) => {
+import Example from "../models/Example";
+
+type CreateExampleBody = { title: string; code: string };
+
+export const getExamples: RequestHandler = async (_req, res) => {
   try {
     const examples = await Example.find()
       .populate("createdBy", "name email")
@@ -13,18 +18,24 @@ export const getExamples = async (_req, res) => {
   }
 };
 
-export const createExample = async (req, res) => {
+export const createExample: RequestHandler<
+  Record<string, never>,
+  unknown,
+  CreateExampleBody
+> = async (req, res) => {
   try {
     const { title, code } = req.body;
 
     if (!title || !code) {
-      return res.status(400).json({ message: "Title and code are required" });
+      res.status(400).json({ message: "Title and code are required" });
+      return;
     }
 
     const example = await Example.create({
       title,
       code,
-      createdBy: req.user.userId,
+      // Mongoose casts the JWT's string id to ObjectId at runtime, as before.
+      createdBy: (req.user?.userId ?? "") as unknown as Types.ObjectId,
     });
 
     res.status(201).json({ message: "Example created", example });
@@ -34,13 +45,17 @@ export const createExample = async (req, res) => {
   }
 };
 
-export const deleteExample = async (req, res) => {
+export const deleteExample: RequestHandler<{ id: string }> = async (
+  req,
+  res,
+) => {
   try {
     const { id } = req.params;
 
     const example = await Example.findByIdAndDelete(id);
     if (!example) {
-      return res.status(404).json({ message: "Example not found" });
+      res.status(404).json({ message: "Example not found" });
+      return;
     }
 
     res.status(200).json({ message: "Example deleted successfully" });
