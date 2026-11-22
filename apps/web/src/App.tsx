@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar.jsx";
-import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import { useEffect, useState } from "react";
+import { Route, Routes } from "react-router";
 
-import Home from "./pages/Home.jsx";
-import Login from "./pages/Login.jsx";
-import Register from "./pages/Register.jsx";
-import UserDashboard from "./pages/UserDashboard.jsx";
-import AdminDashboard from "./pages/AdminDashboard.jsx";
-import ContactUs from "./pages/ContactUs.jsx";
-import HowItWorks from "./pages/HowItWorks.jsx";
+import Navbar from "./components/Navbar";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AdminDashboard from "./pages/AdminDashboard";
+import ContactUs from "./pages/ContactUs";
+import Home from "./pages/Home";
+import HowItWorks from "./pages/HowItWorks";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import UserDashboard from "./pages/UserDashboard";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(() => {

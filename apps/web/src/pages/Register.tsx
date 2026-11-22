@@ -1,8 +1,14 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { type ChangeEvent, type FormEvent, useState } from "react";
+import { useNavigate } from "react-router";
+
 import { registerUser } from "../utils/auth";
 
-const Register = () => {
+interface RegisterProps {
+  darkMode?: boolean;
+}
+
+const Register = ({ darkMode }: RegisterProps) => {
+  void darkMode;
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -13,7 +19,7 @@ const Register = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setFormData((prev) => ({
@@ -22,7 +28,7 @@ const Register = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!formData.name || !formData.email || !formData.password) {
@@ -43,7 +49,7 @@ const Register = () => {
       }
     } catch (error) {
       console.error(error);
-      alert(error.message || "Something went wrong");
+      alert(error instanceof Error ? error.message : "Something went wrong");
     } finally {
       setLoading(false);
     }

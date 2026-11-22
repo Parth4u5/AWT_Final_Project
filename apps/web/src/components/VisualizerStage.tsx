@@ -1,6 +1,11 @@
-import React from "react";
+import type { Step } from "@jsflow/engine";
 
-const VisualizerStage = ({ steps, currentStep }) => {
+interface VisualizerStageProps {
+  steps: Step[];
+  currentStep: number;
+}
+
+const VisualizerStage = ({ steps, currentStep }: VisualizerStageProps) => {
   const step = steps[currentStep];
 
   return (

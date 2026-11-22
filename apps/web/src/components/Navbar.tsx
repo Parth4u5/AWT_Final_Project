@@ -1,7 +1,14 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router";
+
 import { getCurrentUser, logoutUser } from "../utils/auth";
 
-const Navbar = ({ darkMode, onToggleTheme }) => {
+interface NavbarProps {
+  darkMode: boolean;
+  onToggleTheme: () => void;
+}
+
+const Navbar = ({ darkMode, onToggleTheme }: NavbarProps) => {
+  void darkMode;
   const navigate = useNavigate();
 
   const user = getCurrentUser();

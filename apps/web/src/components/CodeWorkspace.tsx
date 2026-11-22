@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 
-const CodeWorkspace = ({ onRun, selectedCode = "" }) => {
+type SnippetKey = "basics" | "mathFlow" | "chained";
+
+interface CodeWorkspaceProps {
+  onRun: (code: string) => void;
+  selectedCode?: string;
+}
+
+const CodeWorkspace = ({ onRun, selectedCode = "" }: CodeWorkspaceProps) => {
   const starterSnippets = {
     basics: `let count = 1;
 count = count + 2;
@@ -28,7 +35,7 @@ console.log(price);`,
     onRun(code);
   };
 
-  const handleLoadSnippet = (key) => {
+  const handleLoadSnippet = (key: SnippetKey) => {
     setCode(starterSnippets[key]);
   };
 

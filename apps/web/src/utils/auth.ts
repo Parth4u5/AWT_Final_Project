@@ -4,7 +4,7 @@ import {
   loginApi,
   logoutApi,
   registerApi,
-} from "../api/Authapi.jsx";
+} from "../api/Authapi";
 
 export const registerUser = registerApi;
 export const loginUser = loginApi;

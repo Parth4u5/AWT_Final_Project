@@ -1,12 +1,20 @@
+import type { Step } from "@jsflow/engine";
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
-import CodeWorkspace from "../components/CodeWorkspace";
-import VisualizerStage from "../components/VisualizerStage";
-import ExecutionLog from "../components/ExecutionLog";
-import { simulateCodeFlow } from "../engine/simulator.jsx";
-import { fetchExamplesApi } from "../api/Examplesapi.jsx";
+import { Link } from "react-router";
 
-const UserDashboard = () => {
+import { fetchExamplesApi } from "../api/Examplesapi";
+import CodeWorkspace from "../components/CodeWorkspace";
+import ExecutionLog from "../components/ExecutionLog";
+import VisualizerStage from "../components/VisualizerStage";
+import { simulateCodeFlow } from "../engine/simulator";
+import type { RemoteExample } from "../types";
+
+interface UserDashboardProps {
+  darkMode?: boolean;
+}
+
+const UserDashboard = ({ darkMode }: UserDashboardProps) => {
+  void darkMode;
   const beginnerExamples = useMemo(
     () => [
       {
@@ -44,14 +52,14 @@ console.log(message);`,
     [],
   );
 
-  const [steps, setSteps] = useState([]);
-  const [logs, setLogs] = useState([]);
+  const [steps, setSteps] = useState<Step[]>([]);
+  const [logs, setLogs] = useState<string[]>([]);
   const [currentStep, setCurrentStep] = useState(0);
   const [isExamplesOpen, setIsExamplesOpen] = useState(false);
   const [selectedExampleId, setSelectedExampleId] = useState(
-    beginnerExamples[0]._id,
+    beginnerExamples[0]?._id ?? "",
   );
-  const [editorCode, setEditorCode] = useState(beginnerExamples[0].code);
+  const [editorCode, setEditorCode] = useState(beginnerExamples[0]?.code ?? "");
   const [examples, setExamples] = useState(beginnerExamples);
 
   useEffect(() => {
@@ -69,14 +77,14 @@ console.log(message);`,
     loadExamples();
   }, [beginnerExamples]);
 
-  const handleRun = (code) => {
+  const handleRun = (code: string) => {
     const result = simulateCodeFlow(code);
     setSteps(result.steps);
     setLogs(result.logs);
     setCurrentStep(0);
   };
 
-  const handleSelectExample = (example) => {
+  const handleSelectExample = (example: RemoteExample) => {
     setSelectedExampleId(example._id);
     setEditorCode(example.code);
     setSteps([]);

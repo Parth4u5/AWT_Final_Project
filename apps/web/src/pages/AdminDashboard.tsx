@@ -1,15 +1,25 @@
-import { useEffect, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
+
 import {
   createExampleApi,
   deleteExampleApi,
   deleteUserApi,
   fetchExamplesApi,
   fetchUsersApi,
-} from "../api/Examplesapi.jsx";
+} from "../api/Examplesapi";
+import type { AdminExample, AdminUser } from "../types";
 
-const AdminDashboard = () => {
-  const [users, setUsers] = useState([]);
-  const [examples, setExamples] = useState([]);
+interface AdminDashboardProps {
+  darkMode?: boolean;
+}
+
+const messageOf = (error: unknown, fallback: string): string =>
+  error instanceof Error ? error.message : fallback;
+
+const AdminDashboard = ({ darkMode }: AdminDashboardProps) => {
+  void darkMode;
+  const [users, setUsers] = useState<AdminUser[]>([]);
+  const [examples, setExamples] = useState<AdminExample[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("stats");
   const [newExample, setNewExample] = useState({ title: "", code: "" });
@@ -25,7 +35,7 @@ const AdminDashboard = () => {
       setUsers(usersData);
       setExamples(examplesData);
     } catch (error) {
-      alert(error.message || "Failed to load admin data");
+      alert(messageOf(error, "Failed to load admin data"));
     } finally {
       setLoading(false);
     }
@@ -35,29 +45,29 @@ const AdminDashboard = () => {
     loadAdminData();
   }, []);
 
-  const handleDeleteUser = async (id) => {
+  const handleDeleteUser = async (id: string) => {
     if (confirm("Are you sure you want to delete this user?")) {
       try {
         await deleteUserApi(id);
         setUsers((prev) => prev.filter((user) => user._id !== id));
       } catch (error) {
-        alert(error.message || "Failed to delete user");
+        alert(messageOf(error, "Failed to delete user"));
       }
     }
   };
 
-  const handleDeleteExample = async (id) => {
+  const handleDeleteExample = async (id: string) => {
     if (confirm("Are you sure you want to delete this example?")) {
       try {
         await deleteExampleApi(id);
         setExamples((prev) => prev.filter((ex) => ex._id !== id));
       } catch (error) {
-        alert(error.message || "Failed to delete example");
+        alert(messageOf(error, "Failed to delete example"));
       }
     }
   };
 
-  const handleCreateExample = async (e) => {
+  const handleCreateExample = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!newExample.title.trim() || !newExample.code.trim()) {
@@ -71,7 +81,7 @@ const AdminDashboard = () => {
       setNewExample({ title: "", code: "" });
       alert("Example created successfully!");
     } catch (error) {
-      alert(error.message || "Failed to create example");
+      alert(messageOf(error, "Failed to create example"));
     }
   };
 

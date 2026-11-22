@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { type ChangeEvent, type FormEvent, useState } from "react";
 
 const ContactUs = () => {
   const [form, setForm] = useState({
@@ -7,12 +7,14 @@ const ContactUs = () => {
     message: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!form.name || !form.email || !form.message) {
       alert("Please fill all fields before submitting.");

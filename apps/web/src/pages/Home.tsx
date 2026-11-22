@@ -1,8 +1,13 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
+
 import { getCurrentUser } from "../utils/auth";
 
-const Home = () => {
+interface HomeProps {
+  darkMode?: boolean;
+}
+
+const Home = ({ darkMode }: HomeProps) => {
+  void darkMode;
   const navigate = useNavigate();
   const user = getCurrentUser();
 

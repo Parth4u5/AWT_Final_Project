@@ -1,6 +1,8 @@
-const normalizeLine = (line) => line.trim();
+import type { Instruction } from "@jsflow/engine";
 
-export const parseCodeToInstructions = (sourceCode) => {
+const normalizeLine = (line: string): string => line.trim();
+
+export const parseCodeToInstructions = (sourceCode: string): Instruction[] => {
   const lines = sourceCode
     .split("\n")
     .map((raw, index) => ({
@@ -10,7 +12,7 @@ export const parseCodeToInstructions = (sourceCode) => {
     }))
     .filter((line) => line.normalized && !line.normalized.startsWith("//"));
 
-  return lines.map((line) => {
+  return lines.map((line): Instruction => {
     const { normalized } = line;
 
     if (normalized.startsWith("console.log")) {
@@ -31,8 +33,8 @@ export const parseCodeToInstructions = (sourceCode) => {
       return {
         ...line,
         type: "assign",
-        variable: declarationMatch[2],
-        expression: declarationMatch[3],
+        variable: declarationMatch[2] ?? "",
+        expression: declarationMatch[3] ?? "",
       };
     }
 
@@ -43,8 +45,8 @@ export const parseCodeToInstructions = (sourceCode) => {
       return {
         ...line,
         type: "assign",
-        variable: assignmentMatch[1],
-        expression: assignmentMatch[2],
+        variable: assignmentMatch[1] ?? "",
+        expression: assignmentMatch[2] ?? "",
       };
     }
 
