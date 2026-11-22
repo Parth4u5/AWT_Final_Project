@@ -8,8 +8,8 @@ import { readFileSync } from "node:fs";
 const read = (path) =>
   readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
 
-const apiEnv = read("backend/.env.example");
-const webEnv = read("JsFlow/.env.example");
+const apiEnv = read("apps/api/.env.example");
+const webEnv = read("apps/web/.env.example");
 const runbook = read("docs/RUNBOOK.md");
 
 const apiVars = [
@@ -30,19 +30,19 @@ for (const name of apiVars) {
   assert.match(
     apiEnv,
     new RegExp(`^${name}=`, "m"),
-    `${name} missing from backend/.env.example`,
+    `${name} missing from apps/api/.env.example`,
   );
   const line =
     apiEnv.split("\n").find((entry) => entry.startsWith(`${name}=`)) ?? "";
   assert.ok(
     apiEnv.indexOf(line) > 0,
-    `${name} needs a description in backend/.env.example`,
+    `${name} needs a description in apps/api/.env.example`,
   );
 }
 assert.match(
   webEnv,
   /^VITE_API_BASE_URL=/m,
-  "VITE_API_BASE_URL missing from JsFlow/.env.example",
+  "VITE_API_BASE_URL missing from apps/web/.env.example",
 );
 
 for (const section of [
@@ -70,7 +70,7 @@ for (const section of [
 
 assert.ok(
   !/mongodb\+srv:\/\/[^<]*:[^<\s]+@/.test(apiEnv),
-  "backend/.env.example must not contain a real-looking connection string",
+  "apps/api/.env.example must not contain a real-looking connection string",
 );
 
 // Status claims must reflect the tasks that are actually committed (review finding).

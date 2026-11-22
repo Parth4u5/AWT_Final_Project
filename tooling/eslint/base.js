@@ -1,6 +1,8 @@
 const tseslint = require("typescript-eslint");
 const reactHooks = require("eslint-plugin-react-hooks");
-const reactRefresh = require("eslint-plugin-react-refresh");
+// v0.5+ wraps the plugin in `default`; older releases expose it directly.
+const reactRefreshModule = require("eslint-plugin-react-refresh");
+const reactRefresh = reactRefreshModule.default ?? reactRefreshModule;
 const jsxA11y = require("eslint-plugin-jsx-a11y");
 const importX = require("eslint-plugin-import-x");
 const simpleImportSort = require("eslint-plugin-simple-import-sort");
@@ -9,7 +11,15 @@ const eslintConfigPrettier = require("eslint-config-prettier/flat");
 /** @type {import('eslint').Linter.Config[]} */
 module.exports = tseslint.config(
   {
-    ignores: ["**/dist/**", "**/node_modules/**", "**/coverage/**"],
+    ignores: [
+      "**/dist/**",
+      "**/node_modules/**",
+      "**/coverage/**",
+      // Config files use CommonJS require by design; app source is linted elsewhere.
+      "tooling/**",
+      // Legacy JSX is linted by apps/web's own config until Phase 1 task 1.6 migrates it.
+      "apps/web/src/**/*.jsx",
+    ],
   },
   tseslint.configs.eslintRecommended,
   ...tseslint.configs.recommended,
