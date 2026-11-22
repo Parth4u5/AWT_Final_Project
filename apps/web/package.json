@@ -12,6 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@jsflow/engine": "workspace:*",
     "@jsflow/shared": "workspace:*",
     "react": "catalog:",
     "react-dom": "catalog:",
