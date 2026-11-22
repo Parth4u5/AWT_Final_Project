@@ -90,8 +90,13 @@ for (const stale of staleClaims) {
 }
 assert.match(
   readme,
-  /Tasks 1, 9 and 10 are complete/i,
+  /Tasks 1, 9 and 10[^.]*complete/i,
   "README must state that Tasks 1, 9 and 10 are complete",
+);
+assert.match(
+  readme,
+  /Phase 1 complete/i,
+  "README must state that Phase 1 is complete",
 );
 
 console.log(
