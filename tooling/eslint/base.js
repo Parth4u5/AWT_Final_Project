@@ -44,12 +44,6 @@ module.exports = tseslint.config(
     rules: {
       ...reactHooks.configs.flat.recommended.rules,
       ...jsxA11y.flatConfigs.recommended.rules,
-      // Phase 1 is a no-behaviour-change migration: these pre-existing legacy
-      // patterns are addressed in Phase 3's accessibility UI work.
-      "react-hooks/set-state-in-effect": "off",
-      "jsx-a11y/click-events-have-key-events": "off",
-      "jsx-a11y/no-noninteractive-element-interactions": "off",
-      "jsx-a11y/no-static-element-interactions": "off",
       "react-refresh/only-export-components": [
         "warn",
         { allowConstantExport: true },

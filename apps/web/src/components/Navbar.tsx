@@ -22,11 +22,14 @@ const Navbar = ({ darkMode, onToggleTheme }: NavbarProps) => {
     <nav className="sticky top-0 z-40 border border-slate-200/70 bg-white/80 px-6 py-4 shadow-sm backdrop-blur-md transition dark:border-slate-800 dark:bg-slate-900/80">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between">
         {/* Logo */}
-        <h1
-          onClick={() => navigate("/")}
-          className="cursor-pointer text-xl font-black tracking-tight text-slate-900 dark:text-white"
-        >
-          JS Flow
+        <h1 className="text-xl font-black tracking-tight text-slate-900 dark:text-white">
+          <button
+            type="button"
+            onClick={() => navigate("/")}
+            className="cursor-pointer"
+          >
+            JS Flow
+          </button>
         </h1>
 
         {/* Links */}

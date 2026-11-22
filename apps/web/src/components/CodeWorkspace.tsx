@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type SnippetKey = "basics" | "mathFlow" | "chained";
 
@@ -24,11 +24,14 @@ console.log(price);`,
 
   const [code, setCode] = useState(starterSnippets.basics);
 
-  useEffect(() => {
-    if (selectedCode) {
-      setCode(selectedCode);
-    }
-  }, [selectedCode]);
+  // Adjust state during render when the selected example changes (React's
+  // documented alternative to a setState-in-effect), preserving behaviour.
+  const [previousSelectedCode, setPreviousSelectedCode] =
+    useState(selectedCode);
+  if (selectedCode !== previousSelectedCode) {
+    setPreviousSelectedCode(selectedCode);
+    if (selectedCode) setCode(selectedCode);
+  }
 
   const handleRun = () => {
     if (!code.trim()) return;

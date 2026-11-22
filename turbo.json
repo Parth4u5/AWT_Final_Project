@@ -7,8 +7,6 @@
     },
     "typecheck": {},
     "lint": {},
-    "test": {
-      "dependsOn": ["^build"]
-    }
+    "test": {}
   }
 }

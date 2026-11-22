@@ -90,12 +90,13 @@ const Login = ({ darkMode }: LoginProps) => {
           {/* Register link */}
           <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
             Do not have an account?{" "}
-            <span
+            <button
+              type="button"
               onClick={() => navigate("/register")}
               className="cursor-pointer font-semibold text-cyan-600 hover:underline dark:text-cyan-400"
             >
               Register
-            </span>
+            </button>
           </p>
         </form>
       </div>

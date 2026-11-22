@@ -1,8 +1,8 @@
 # JS Flow Visualizer — Case Study
 
-> **Status: skeleton only.** This write-up is filled in _as the project is built_, from real decisions and
-> real numbers — never retro-fitted to look good after the fact. Headings below are placeholders for
-> sections that will be written in their phase.
+> **Status: written alongside the code.** Sections are filled in as each phase lands, from real decisions
+> and real numbers — never retro-fitted to look good after the fact. Headings without content are still
+> placeholders for later phases.
 
 ## The problem
 
@@ -12,9 +12,9 @@
 
 ## Key decisions and trade-offs
 
-### Phase 1 — the TypeScript migration (honest, in progress)
+### Phase 1 — the TypeScript migration (complete)
 
-The second phase moved the existing JavaScript app into the monorepo without changing what it does. Three
+Phase 1 moved the existing JavaScript app into the monorepo without changing what it does. Three
 decisions are worth recording because they traded short-term convenience for later safety:
 
 - **Zod schemas are type-only in Phase 1.** `packages/shared` defines the request/response contract, but the

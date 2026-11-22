@@ -1,4 +1,4 @@
-import { type FormEvent, useEffect, useState } from "react";
+import { type FormEvent, useState } from "react";
 
 import {
   createExampleApi,
@@ -41,9 +41,12 @@ const AdminDashboard = ({ darkMode }: AdminDashboardProps) => {
     }
   };
 
-  useEffect(() => {
-    loadAdminData();
-  }, []);
+  // One-time load via render adjustment rather than setState inside an effect.
+  const [loaded, setLoaded] = useState(false);
+  if (!loaded) {
+    setLoaded(true);
+    void loadAdminData();
+  }
 
   const handleDeleteUser = async (id: string) => {
     if (confirm("Are you sure you want to delete this user?")) {
