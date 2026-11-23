@@ -1,7 +1,7 @@
 import type { RequestHandler } from "express";
 import type { Types } from "mongoose";
 
-import Example from "../models/Example";
+import Example from "../models/Example.js";
 
 type CreateExampleBody = { title: string; code: string };
 

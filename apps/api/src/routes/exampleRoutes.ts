@@ -4,8 +4,8 @@ import {
   createExample,
   deleteExample,
   getExamples,
-} from "../controllers/exampleController";
-import { adminOnly, protect } from "../middleware/authMiddleware";
+} from "../controllers/exampleController.js";
+import { adminOnly, protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 

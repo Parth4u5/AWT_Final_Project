@@ -1,9 +1,9 @@
 import cors from "cors";
 import express from "express";
 
-import authRoutes from "./routes/authRoutes";
-import exampleRoutes from "./routes/exampleRoutes";
-import userRoutes from "./routes/userRoutes";
+import authRoutes from "./routes/authRoutes.js";
+import exampleRoutes from "./routes/exampleRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 const frontendUrl = process.env.FRONTEND_URL;
 

@@ -1,0 +1,12 @@
+{
+  "extends": "../../tooling/tsconfig/node.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "exactOptionalPropertyTypes": true,
+    "paths": {
+      "@jsflow/shared": ["../../packages/shared/src/index.ts"]
+    }
+  },
+  "include": ["src"]
+}

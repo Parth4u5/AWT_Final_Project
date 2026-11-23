@@ -1,13 +1,9 @@
-import type { NextFunction, Request, Response } from "express";
+import type { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
 
 type AuthClaims = { userId: string; role: "user" | "admin" };
 
-export const protect = (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): void => {
+export const protect: RequestHandler = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -27,11 +23,7 @@ export const protect = (
   }
 };
 
-export const adminOnly = (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): void => {
+export const adminOnly: RequestHandler = (req, res, next) => {
   if (!req.user || req.user.role !== "admin") {
     res.status(403).json({ message: "Admin access required" });
     return;

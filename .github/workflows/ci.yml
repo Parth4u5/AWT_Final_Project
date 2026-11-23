@@ -92,6 +92,10 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
+      # Vercel's builder compiles with NodeNext resolution, not our bundler preset.
+      - name: Vercel-style API typecheck
+        run: pnpm typecheck:vercel
+
   test:
     name: Test (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import type { IExample } from "../types/models";
+import type { IExample } from "../types/models.js";
 
 const exampleSchema = new mongoose.Schema<IExample>(
   {

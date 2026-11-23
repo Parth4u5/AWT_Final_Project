@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { assertEnv } from "./env";
+import { assertEnv } from "./env.js";
 
 const valid = () => ({
   JWT_SECRET: "x".repeat(40),

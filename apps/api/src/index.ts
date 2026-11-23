@@ -1,8 +1,8 @@
 import dotenv from "dotenv";
 
-import app from "./app";
-import connectDB from "./config/db";
-import { assertEnv } from "./config/env";
+import app from "./app.js";
+import connectDB from "./config/db.js";
+import { assertEnv } from "./config/env.js";
 
 dotenv.config();
 

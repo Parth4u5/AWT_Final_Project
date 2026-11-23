@@ -15,9 +15,10 @@ const connectDB = async (): Promise<typeof mongoose> => {
     );
   }
 
-  cachedConnection = mongoose.connect(mongoUri, {
+  const options = {
     serverSelectionTimeoutMS: 10000,
-  });
+  } as mongoose.ConnectOptions;
+  cachedConnection = mongoose.connect(mongoUri, options);
 
   try {
     await cachedConnection;

@@ -9,6 +9,7 @@
     "dev": "concurrently \"pnpm --filter @jsflow/web dev\" \"pnpm --filter @jsflow/api dev\"",
     "build": "turbo run build",
     "typecheck": "turbo run typecheck",
+    "typecheck:vercel": "pnpm --filter @jsflow/api exec tsc --noEmit -p tsconfig.vercel.json",
     "lint": "turbo run lint",
     "test": "turbo run test",
     "test:seed": "vitest run scripts/seed.test.ts scripts/seed-upsert.test.ts",

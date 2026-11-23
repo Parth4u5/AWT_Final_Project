@@ -1,9 +1,9 @@
 import dotenv from "dotenv";
-import type { Request, Response } from "express";
+import type { RequestHandler } from "express";
 
-import app from "../app";
-import connectDB from "../config/db";
-import { assertEnv } from "../config/env";
+import app from "../app.js";
+import connectDB from "../config/db.js";
+import { assertEnv } from "../config/env.js";
 
 dotenv.config();
 
@@ -17,9 +17,12 @@ try {
   console.error(configError.message);
 }
 
+type HandlerRequest = Parameters<RequestHandler>[0];
+type HandlerResponse = Parameters<RequestHandler>[1];
+
 export default async function handler(
-  req: Request,
-  res: Response,
+  req: HandlerRequest,
+  res: HandlerResponse,
 ): Promise<unknown> {
   try {
     if (configError) {
