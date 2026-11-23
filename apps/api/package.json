@@ -13,7 +13,6 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@jsflow/shared": "workspace:*",
     "bcryptjs": "catalog:",
     "cors": "catalog:",
     "dotenv": "catalog:",

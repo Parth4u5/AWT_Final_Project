@@ -1,10 +1,10 @@
-import type { LoginInput, RegisterInput } from "@jsflow/shared";
 import bcrypt from "bcryptjs";
 import type { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
 import type { HydratedDocument } from "mongoose";
 
 import User from "../models/User";
+import type { LoginInput, RegisterInput } from "../types/api";
 import type { IUser } from "../types/models";
 
 const generateToken = (user: HydratedDocument<IUser>): string => {
